@@ -22,8 +22,8 @@ public:
                 std::cout << "Chất đất: "; std::getline(std::cin, clay);
                 std::cout << "Dáng ấm: "; std::getline(std::cin, shape);
                 std::cout << "Dung tích (VD: 40ml - 60ml): "; std::getline(std::cin, vol);
-                std::cout << "Loại trà phù hợp (không dấu): "; std::getline(std::cin, teas);
-                std::cout << "Trà hiển thị (có dấu): "; std::getline(std::cin, displayTeas);
+                std::cout << "Loại trà phù hợp (display - có dấu có viết hoa): "; std::getline(std::cin, teas);
+                std::cout << "Loại trà phù hợp (search - không dấu không viết hoa): "; std::getline(std::cin, displayTeas);
                 
                 app.addTeapot(id, name, clay, shape, vol, teas, displayTeas);
                 std::cout << "=> Thêm thành công!\n";
