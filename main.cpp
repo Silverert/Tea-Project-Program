@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "Manager.h"
 #include "Admin.h"
+#include "Consultant.h" 
 
 using namespace std;
 
@@ -12,17 +13,17 @@ int main() {
     
     SystemManager app;
     AdminPanel admin;
+    Consultant advisor; // Khởi tạo đối tượng tư vấn
 
     // TỰ ĐỘNG ĐỒNG BỘ NGAY KHI CHƯƠNG TRÌNH KHỞI CHẠY
-    // Lưu ý: Đảm bảo file "amtra_tu_drive.csv" nằm cùng thư mục với chương trình
-    app.importTeapotsCSV("Tea_List.csv");
+    app.importTeapotsCSV("Tea_List.csv"); 
 
     while (true) {
         cout << "\n================ HỆ THỐNG QUẢN LÝ TRÀ ================\n";
         cout << "1. Kho ấm trà\n";
         cout << "2. Tư vấn chọn ấm\n";
         cout << "3. [ADMIN] Nhập dữ liệu tay\n";
-        cout << "4. ĐỔNG BỘ DỮ LIỆU\n";
+        cout << "4. ĐỒNG BỘ DỮ LIỆU\n";
         cout << "5. Danh sách các loại trà khả dụng\n";
         cout << "0. Thoát\n";
         cout << "Chọn chức năng (0-5): ";
@@ -45,29 +46,30 @@ int main() {
                 break;
             case 2: {
                 string tType;
-    			int nPeople, cVol;
-    			cout << "\n--- NHẬP THÔNG TIN TƯ VẤN ---\n";
-    			cout << "Nhập loại trà (vui lòng nhập không dấu VD: Tra Xanh/tra xanh):";
-    
-   				cin.ignore();
-    			getline(cin, tType);
+                int nPeople, cVol;
+                cout << "\n--- NHẬP THÔNG TIN TƯ VẤN ---\n";
+                cout << "Nhập loại trà (vui lòng nhập không dấu VD: Tra Xanh/tra xanh): ";
+ 
+                cin.ignore();
+                getline(cin, tType);
                 cout << "Số người uống: ";
                 cin >> nPeople;
                 cout << "Dung tích chén (ml): ";
                 cin >> cVol;
                 
-                app.runConsultation(tType, nPeople, cVol);
+                // Sử dụng Consultant để tư vấn
+                advisor.recommend(tType, nPeople, cVol, app.getInventory());
                 break;
             }
             case 3: 
                 admin.showMenu(app); 
                 break;
             case 4: 
-                app.importTeapotsCSV("amtra_tu_drive.csv"); 
+                app.importTeapotsCSV("Tea_List.csv"); 
                 break;
             case 5: 
-    			app.showAvailableTeas();
-    			break;
+                app.showAvailableTeas();
+                break;
             default: 
                 cout << "Lựa chọn không hợp lệ!\n";
         }
