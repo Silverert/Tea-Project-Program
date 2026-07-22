@@ -5,6 +5,9 @@
 #include <string>
 #include "Manager.h"
 
+
+//Chức năng của Admin: Cho phép nhập thêm Ấm trà, Chất đất, Dáng ấm, Dung tích, Loại trà phù hợp với ấm.
+
 class AdminPanel {
 public:
     void showMenu(SystemManager& app) {
@@ -21,9 +24,9 @@ public:
                 std::cout << "Tên ấm: "; std::getline(std::cin, name);
                 std::cout << "Chất đất: "; std::getline(std::cin, clay);
                 std::cout << "Dáng ấm: "; std::getline(std::cin, shape);
-                std::cout << "Dung tích (VD: 40ml - 60ml): "; std::getline(std::cin, vol);
-                std::cout << "Loại trà phù hợp (display - có dấu có viết hoa): "; std::getline(std::cin, teas);
-                std::cout << "Loại trà phù hợp (search - không dấu không viết hoa): "; std::getline(std::cin, displayTeas);
+                std::cout << "Dung tích (VD: 100ml - 150ml): "; std::getline(std::cin, vol);
+                std::cout << "Loại trà phù hợp (display - có dấu có viết hoa): "; std::getline(std::cin, teas);		// Tên loại trà sẽ được hiển thị (VD: Trà Xanh)
+                std::cout << "Loại trà phù hợp (search - không dấu không viết hoa): "; std::getline(std::cin, displayTeas);		//Tên loại trà dùng cho việc tìm kiếm (VD:tra xanh)
                 
                 app.addTeapot(id, name, clay, shape, vol, teas, displayTeas);
                 std::cout << "=> Thêm thành công!\n";

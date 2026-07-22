@@ -26,7 +26,7 @@ public:
         teapotList.emplace_back(id, name, clay, shape, volRange, teaDisplay, teaSearch);
     }
 
-    void importTeapotsCSV(std::string filename) {
+    void importTeapotsCSV(std::string filename) {	//Nhập dữ liệu từ file .CSV
         teapotList.clear();
         std::ifstream file(filename);
         if (!file.is_open()) return;
