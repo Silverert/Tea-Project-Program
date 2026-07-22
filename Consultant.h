@@ -9,7 +9,6 @@
 
 class Consultant {
 private:
-    // Chuyển chuỗi về chữ thường để so sánh không phân biệt hoa/thường
     std::string toLowerCase(std::string s) {
         std::transform(s.begin(), s.end(), s.begin(), ::tolower);
         return s;
@@ -20,30 +19,37 @@ public:
         int totalVol = people * cupVol;
         bool found = false;
 
-        // Đưa input của user về chữ thường
+        // TÍNH TOÁN CÔNG THỨC: Chỉ lấy chênh lệch lớn hơn (từ mức cần thiết đến +80%)
+        int variance = totalVol * 0.8; 
+        int minVol = totalVol; // Bắt đầu từ đúng dung tích cần thiết (không lấy nhỏ hơn)
+        int maxVol = totalVol + variance;
+
         std::string searchInput = toLowerCase(teaType); 
 
         std::cout << "\n========== KẾT QUẢ TƯ VẤN ==========\n";
-        std::cout << "Tổng dung tích cần thiết: " << totalVol << "ml - " << (totalVol + 20) << "ml\n\n";
+        std::cout << "Dung tích chuẩn cần thiết: " << totalVol << "ml\n";
+        std::cout << "(Hệ thống tự động lọc các ấm có dung tích TB trong khoảng: " << minVol << "ml - " << maxVol << "ml)\n\n";
 
-        // Vòng lặp tìm kiếm trong kho
         for (const auto& pot : inventory) {
-            // So sánh với cột teaSearch trong dữ liệu
+            // Lọc 1: Kiểm tra loại trà có khớp không
             if (toLowerCase(pot.teaSearch).find(searchInput) != std::string::npos) {
-                std::cout << ">>> GỢI Ý ẤM PHÙ HỢP: " << pot.name << "\n";
-                std::cout << "  - Chất đất: " << pot.clayType << "\n";
-                std::cout << "  - Dáng ấm : " << pot.shape << "\n";
-                std::cout << "  - Dung tích: " << pot.volume << "\n";
-                std::cout << "  - Trà hợp : " << pot.teaDisplay << "\n";
-                std::cout << "------------------------------------------\n";
-                found = true; 
+                // Lọc 2: Kiểm tra dung tích trung bình có nằm trong khoảng từ (cần thiết) đến (cần thiết + 80%)
+                if (pot.avgVolume >= minVol && pot.avgVolume <= maxVol) {
+                    std::cout << ">>> GỢI Ý ẤM PHÙ HỢP: " << pot.name << "\n";
+                    std::cout << "  - Mã ấm   : " << pot.id << "\n";
+                    std::cout << "  - Chất đất: " << pot.clayType << "\n";
+                    std::cout << "  - Dáng ấm : " << pot.shape << "\n";
+                    std::cout << "  - Dung tích: " << pot.volume << " (TB: " << pot.avgVolume << "ml)\n";
+                    std::cout << "  - Trà hợp : " << pot.teaDisplay << "\n";
+                    std::cout << "------------------------------------------\n";
+                    found = true; 
+                }
             }
         }
 
-        // CHỈ in thông báo này nếu sau khi duyệt hết kho mà không tìm thấy gì
         if (!found) {
-            std::cout << "Tiếc quá, kho hiện tại chưa có ấm phù hợp cho: " << teaType << "\n";
-            std::cout << "Vui lòng kiểm tra lại tên trà hoặc dùng chức năng 5 để xem các loại trà.\n";
+            std::cout << "Tiếc quá, kho hiện tại chưa có ấm phù hợp thỏa mãn dung tích và loại trà bạn chọn.\n";
+            std::cout << "Vui lòng kiểm tra lại tên trà hoặc đổi số lượng người/dung tích chén.\n";
         }
         
         std::cout << "====================================\n";

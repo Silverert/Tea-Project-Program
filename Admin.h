@@ -5,9 +5,6 @@
 #include <string>
 #include "Manager.h"
 
-
-//Chức năng của Admin: Cho phép nhập thêm Ấm trà, Chất đất, Dáng ấm, Dung tích, Loại trà phù hợp với ấm.
-
 class AdminPanel {
 public:
     void showMenu(SystemManager& app) {
@@ -20,16 +17,26 @@ public:
             
             if (choice == 1) {
                 std::string id, name, clay, shape, vol, teas, displayTeas;
+                int avgVol;
+                
                 std::cout << "Mã: "; std::cin >> id; std::cin.ignore();
                 std::cout << "Tên ấm: "; std::getline(std::cin, name);
                 std::cout << "Chất đất: "; std::getline(std::cin, clay);
                 std::cout << "Dáng ấm: "; std::getline(std::cin, shape);
-                std::cout << "Dung tích (VD: 100ml - 150ml): "; std::getline(std::cin, vol);
-                std::cout << "Loại trà phù hợp (display - có dấu có viết hoa): "; std::getline(std::cin, teas);		// Tên loại trà sẽ được hiển thị (VD: Trà Xanh)
-                std::cout << "Loại trà phù hợp (search - không dấu không viết hoa): "; std::getline(std::cin, displayTeas);		//Tên loại trà dùng cho việc tìm kiếm (VD:tra xanh)
+                std::cout << "Dung tích (VD: 40ml - 60ml): "; std::getline(std::cin, vol);
+                std::cout << "Loại trà phù hợp (display - có dấu có viết hoa): "; std::getline(std::cin, teas);
+                std::cout << "Loại trà phù hợp (search - không dấu không viết hoa): "; std::getline(std::cin, displayTeas);
+                std::cout << "Dung tích trung bình (chỉ nhập số - VD: 150): "; 
+                std::cin >> avgVol;
+                std::cin.ignore();
                 
-                app.addTeapot(id, name, clay, shape, vol, teas, displayTeas);
-                std::cout << "=> Thêm thành công!\n";
+                // 1. Thêm vào bộ nhớ RAM để dùng ngay lập tức
+                app.addTeapot(id, name, clay, shape, vol, teas, displayTeas, avgVol);
+                
+                // 2. Lưu trực tiếp xuống file CSV để không bị mất khi thoát hoặc đồng bộ lại
+                app.saveNewTeapotToCSV("Tea_List.csv", id, name, clay, shape, vol, teas, displayTeas, avgVol);
+                
+                std::cout << "=> Thêm và lưu vào file CSV thành công!\n";
             }
         }
     }

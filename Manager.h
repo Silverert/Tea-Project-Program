@@ -22,11 +22,22 @@ private:
     }
 
 public:
-    void addTeapot(std::string id, std::string name, std::string clay, std::string shape, std::string volRange, std::string teaDisplay, std::string teaSearch) {
-        teapotList.emplace_back(id, name, clay, shape, volRange, teaDisplay, teaSearch);
+    void addTeapot(std::string id, std::string name, std::string clay, std::string shape, std::string volRange, std::string teaDisplay, std::string teaSearch, int avgVolume) {
+        teapotList.emplace_back(id, name, clay, shape, volRange, teaDisplay, teaSearch, avgVolume);
+    }
+    
+    void saveNewTeapotToCSV(std::string filename, std::string id, std::string name, std::string clay, std::string shape, std::string volRange, std::string teaDisplay, std::string teaSearch, int avgVolume) {
+        // std::ios::app nghĩa là "Append" (Ghi nối tiếp vào cuối file thay vì ghi đè xóa mất file cũ)
+        std::ofstream file(filename, std::ios::app); 
+        if (file.is_open()) {
+            file << "\n" << id << "," << name << "," << clay << "," << shape << "," << volRange << "," << teaDisplay << "," << teaSearch << "," << avgVolume;
+            file.close();
+        } else {
+            std::cout << "[LỖI] Không thể mở file " << filename << " để lưu!\n";
+        }
     }
 
-    void importTeapotsCSV(std::string filename) {	//Nhập dữ liệu từ file .CSV
+    void importTeapotsCSV(std::string filename) {
         teapotList.clear();
         std::ifstream file(filename);
         if (!file.is_open()) return;
@@ -51,8 +62,15 @@ public:
             cell = trim(cell);
             row.push_back(cell);
 
-            if (row.size() >= 7) {
-                addTeapot(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
+            // Kiểm tra xem đã có đủ 8 cột chưa (bao gồm cả cột avgVolume mới)
+            if (row.size() >= 8) {
+                int avgVol = 0;
+                try {
+                    avgVol = std::stoi(row[7]); // Ép kiểu string sang int
+                } catch (...) {
+                    avgVol = 0; // Nếu ô trống hoặc lỗi thì gán bằng 0
+                }
+                addTeapot(row[0], row[1], row[2], row[3], row[4], row[5], row[6], avgVol);
             }
         }
         file.close();
@@ -79,7 +97,6 @@ public:
         for (const auto& tea : uniqueTeas) std::cout << count++ << ". " << tea << "\n";
     }
 
-    // Cung cấp danh sách ấm trà cho class Consultant đọc
     const std::vector<Teapot>& getInventory() const {
         return teapotList;
     }
