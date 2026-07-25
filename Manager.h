@@ -76,7 +76,7 @@ public:
         file.close();
         std::cout << "-Data synchronized successfully-" << std::endl;
     }
-c	
+		
     void showInventory() {
         std::cout << "\n--- DANH SÁCH ẤM TRÀ ---\n";
         for (const auto& pot : teapotList) pot.displayCard();

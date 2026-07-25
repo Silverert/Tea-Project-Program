@@ -19,8 +19,8 @@ public:
         int totalVol = people * cupVol;
         
         // TÍNH TOÁN CÔNG THỨC: Chênh lệch từ mức cần thiết đến +80%
-        int variance = totalVol * 0.8; 
-        int minVol = totalVol; 
+        int variance = totalVol * 0.8;
+        int minVol = totalVol;
         int maxVol = totalVol + variance;
 
         std::string searchInput = toLowerCase(teaType); 

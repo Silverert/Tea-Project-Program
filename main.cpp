@@ -22,9 +22,9 @@ int main() {
         cout << "\n================ HỆ THỐNG QUẢN LÝ TRÀ ================\n";
         cout << "1. Kho ấm trà\n";
         cout << "2. Tư vấn chọn ấm\n";
-        cout << "3. [ADMIN] Nhập dữ liệu tay\n";
+        cout << "3. Danh sách các loại trà khả dụng\n";
         cout << "4. ĐỒNG BỘ DỮ LIỆU\n";
-        cout << "5. Danh sách các loại trà khả dụng\n";
+        cout << "5. [ADMIN] Nhập dữ liệu tay\n";
         cout << "0. Thoát\n";
         cout << "Chọn chức năng (0-5): ";
 
@@ -72,13 +72,13 @@ int main() {
                 advisor.recommend(tType, nPeople, cVol, app.getInventory());
                 break;
             }
-            case 3: 
+            case 5: 
                 admin.showMenu(app); 
                 break;
             case 4: 
                 app.importTeapotsCSV("Tea_List.csv"); 
                 break;
-            case 5: 
+            case 3: 
                 app.showAvailableTeas();
                 break;
             default: 

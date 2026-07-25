@@ -14,7 +14,7 @@ struct Teapot {
         : id(_id), name(_name), clayType(_clay), shape(_shape), 
           volume(_vol), teaDisplay(_teaDisplay), teaSearch(_teaSearch), avgVolume(_avgVolume) {}
 
-    void displayCard() const { 
+    void displayCard() const {
         std::cout << "---------------------------------------------------------\n";
         std::cout << " [Mã ấm: " << id << "] - " << name << "\n";
         std::cout << "---------------------------------------------------------\n";
@@ -24,7 +24,7 @@ struct Teapot {
         
         // Hiển thị trà
         std::string displayTea = teaDisplay;
-        size_t pos = displayTea.find(';'); 
+        size_t pos = displayTea.find(';');
         while(pos != std::string::npos) {
             displayTea.replace(pos, 1, ", ");
             pos = displayTea.find(';', pos + 1);
