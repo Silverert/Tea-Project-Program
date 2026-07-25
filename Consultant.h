@@ -70,6 +70,7 @@ public:
                 std::cout << "  - Chất đất: " << pot.clayType << "\n";
                 std::cout << "  - Dáng ấm : " << pot.shape << "\n";
                 std::cout << "  - Dung tích: " << pot.volume << " (TB: " << pot.avgVolume << "ml)\n";
+                std::cout << "  - Trà hợp : " << pot.teaDisplay << "\n";
                 std::cout << "------------------------------------------\n";
             }
         } else {
