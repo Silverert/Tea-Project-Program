@@ -27,10 +27,10 @@ public:
     }
     
     void saveNewTeapotToCSV(std::string filename, std::string id, std::string name, std::string clay, std::string shape, std::string volRange, std::string teaDisplay, std::string teaSearch, int avgVolume) {
-        // std::ios::app nghĩa là "Append" (Ghi nối tiếp vào cuối file thay vì ghi đè xóa mất file cũ)
         std::ofstream file(filename, std::ios::app); 
         if (file.is_open()) {
-            file << "\n" << id << "," << name << "," << clay << "," << shape << "," << volRange << "," << teaDisplay << "," << teaSearch << "," << avgVolume;
+            // Đã bọc ngoặc kép cho các chuỗi để chống lỗi dấu phẩy
+            file << "\n" << id << ",\"" << name << "\",\"" << clay << "\",\"" << shape << "\",\"" << volRange << "\",\"" << teaDisplay << "\",\"" << teaSearch << "\"," << avgVolume;
             file.close();
         } else {
             std::cout << "[LỖI] Không thể mở file " << filename << " để lưu!\n";
@@ -40,7 +40,14 @@ public:
     void importTeapotsCSV(std::string filename) {
         teapotList.clear();
         std::ifstream file(filename);
-        if (!file.is_open()) return;
+        
+        // --- BẢN VÁ LỖI: Báo cảnh báo nếu mất file ---
+        if (!file.is_open()) {
+            std::cout << "[CẢNH BÁO] Không tìm thấy file '" << filename << "'!\n";
+            std::cout << "=> Hệ thống hiện đang chạy với kho dữ liệu trống.\n";
+            return;
+        }
+        // ---------------------------------------------
 
         std::string line;
         std::getline(file, line); 

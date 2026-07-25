@@ -53,20 +53,22 @@ int main() {
                 cin.ignore();
                 getline(cin, tType);
                 
-                // --- THÊM VÒNG LẶP KIỂM TRA LỖI NHẬP LIỆU Ở ĐÂY ---
+                // --- VÒNG LẶP KIỂM TRA LỖI CHỐNG NHẬP CHỮ & SỐ ÂM ---
                 do {
                     cout << "Số người uống: ";
-                    cin >> nPeople;
-                    cout << "Dung tích chén (ml): ";
-                    cin >> cVol;
-                    
-                    // Nếu nhập số âm hoặc bằng 0 thì báo lỗi và vòng lặp sẽ bắt nhập lại
-                    if (nPeople <= 0 || cVol <= 0) {
-                        cout << "=> [LỖI] Số người và dung tích chén phải lớn hơn 0!\n";
-                        cout << "=> Vui lòng nhập lại thông tin.\n\n";
+                    if (!(cin >> nPeople)) { 
+                        cin.clear(); cin.ignore(1000, '\n'); nPeople = -1; 
                     }
-                } while (nPeople <= 0 || cVol <= 0); // Lặp lại nếu điều kiện này còn đúng
-                // --------------------------------------------------
+                    
+                    cout << "Dung tích chén (ml): ";
+                    if (!(cin >> cVol)) { 
+                        cin.clear(); cin.ignore(1000, '\n'); cVol = -1; 
+                    }
+                    
+                    if (nPeople <= 0 || cVol <= 0) {
+                        cout << "=> [LỖI] Dữ liệu không hợp lệ! Vui lòng chỉ nhập số dương.\n\n";
+                    }
+                } while (nPeople <= 0 || cVol <= 0);
                 
                 // Sử dụng Consultant để tư vấn
                 advisor.recommend(tType, nPeople, cVol, app.getInventory());

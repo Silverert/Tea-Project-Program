@@ -11,7 +11,14 @@ public:
         int choice;
         while (true) {
             std::cout << "\n--- [MENU QUẢN TRỊ VIÊN] ---\n1. Thêm ấm trà\n0. Quay lại\nChọn: ";
-            std::cin >> choice;
+            
+            // Bắt lỗi nhập chữ ở Menu Admin
+            if (!(std::cin >> choice)) {
+                std::cin.clear();
+                std::cin.ignore(1000, '\n');
+                std::cout << "Lựa chọn không hợp lệ!\n";
+                continue;
+            }
             if (choice == 0) break;
             std::cin.ignore();
             
@@ -26,14 +33,17 @@ public:
                 std::cout << "Dung tích (VD: 40ml - 60ml): "; std::getline(std::cin, vol);
                 std::cout << "Loại trà phù hợp (display - có dấu có viết hoa): "; std::getline(std::cin, teas);
                 std::cout << "Loại trà phù hợp (search - không dấu không viết hoa): "; std::getline(std::cin, displayTeas);
+                
+                // Bắt lỗi nhập chữ ở Dung tích trung bình
                 std::cout << "Dung tích trung bình (chỉ nhập số - VD: 150): "; 
-                std::cin >> avgVol;
+                while (!(std::cin >> avgVol) || avgVol <= 0) {
+                    std::cin.clear();
+                    std::cin.ignore(1000, '\n');
+                    std::cout << "[LỖI] Vui lòng chỉ nhập số dương: ";
+                }
                 std::cin.ignore();
                 
-                // 1. Thêm vào bộ nhớ RAM để dùng ngay lập tức
                 app.addTeapot(id, name, clay, shape, vol, teas, displayTeas, avgVol);
-                
-                // 2. Lưu trực tiếp xuống file CSV để không bị mất khi thoát hoặc đồng bộ lại
                 app.saveNewTeapotToCSV("Tea_List.csv", id, name, clay, shape, vol, teas, displayTeas, avgVol);
                 
                 std::cout << "=> Thêm và lưu vào file CSV thành công!\n";
@@ -41,4 +51,4 @@ public:
         }
     }
 };
-#endif
+#endif	
